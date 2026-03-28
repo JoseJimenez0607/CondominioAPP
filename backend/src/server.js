@@ -15,14 +15,15 @@ const { setupSocketIO }        = require('./services/socketService');
 const { startParkingAlerts }   = require('./services/parkingAlerts');
 
 const app    = express();
-const server = http.createServer(app);
-const io     = new Server(server, {
-  cors: {
-    origin: process.env.CORS_ORIGINS?.split(',') || '*',
-    methods: ['GET', 'POST']
-  }
-});
+// --- CONFIGURACIÓN CORS PARA PRODUCCIÓN ---
+app.use(cors({
+  origin: 'https://condominio-app-frontend.vercel.app', // Solo tu dominio de Vercel (sin '/' al final)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
+app.use(express.json());
 // ── Seguridad ──────────────────────────────────────────────
 app.use(helmet());
 app.use(cors({
