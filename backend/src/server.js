@@ -1,12 +1,12 @@
 require('dotenv').config();
-const express    = require('express');
-const http       = require('http');
-const cors       = require('cors');
-const helmet     = require('helmet');
-const morgan     = require('morgan');
+const express     = require('express');
+const http        = require('http');
+const cors        = require('cors');
+const helmet      = require('helmet');
+const morgan      = require('morgan');
 const compression = require('compression');
-const rateLimit  = require('express-rate-limit');
-const { Server } = require('socket.io');
+const rateLimit   = require('express-rate-limit');
+const { Server }  = require('socket.io');
 
 const { testConnection }       = require('./db/pool');
 const routes                   = require('./routes');
@@ -15,19 +15,29 @@ const { setupSocketIO }        = require('./services/socketService');
 const { startParkingAlerts }   = require('./services/parkingAlerts');
 
 const app    = express();
-// --- CONFIGURACIÓN CORS PARA PRODUCCIÓN ---
-app.use(cors({
-  origin: 'https://condominio-app-frontend.vercel.app', // Solo tu dominio de Vercel (sin '/' al final)
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+const server = http.createServer(app);
 
-app.use(express.json());
-// ── Seguridad ──────────────────────────────────────────────
+// 1. DOMINIOS PERMITIDOS (Tu Vercel y tu Localhost)
+const allowedOrigins = [
+  'https://condominio-app-frontend.vercel.app',
+  'http://localhost:5173'
+];
+
+// 2. CONFIGURACIÓN CORS PARA WEBSOCKETS (io)
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
+  }
+});
+
+// ── Seguridad y CORS PARA EXPRESS ────────────────────────
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGINS?.split(',') || '*',
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
@@ -78,7 +88,7 @@ async function start() {
   try {
     await testConnection();
     server.listen(PORT, () => {
-      console.log(`\n🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`\n🚀 Servidor corriendo en puerto ${PORT}`);
       console.log(`📡 WebSocket activo`);
       console.log(`🌎 Entorno: ${process.env.NODE_ENV || 'development'}\n`);
       // Iniciar job de alertas de parking
