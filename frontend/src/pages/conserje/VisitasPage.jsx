@@ -6,6 +6,7 @@ import { visitasApi, unidadesApi, estacionamientosApi } from '@/services/api';
 import { useSocket } from '@/services/socket';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import QRScannerModal from '@/components/conserje/QRScannerModal';
 
 const EMPTY_FORM = {
   nombre_visita: '', rut_dni: '', patente: '',
@@ -36,6 +37,7 @@ export default function VisitasPage() {
   const [form, setForm]   = useState(EMPTY_FORM);
   const [buscar, setBuscar] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [showQR, setShowQR]     = useState(false);
 
   const { data: dashData } = useQuery({
     queryKey: ['dashboard'],
@@ -119,6 +121,7 @@ export default function VisitasPage() {
 
   return (
     <div className="space-y-5 animate-fade-in">
+      <QRScannerModal open={showQR} onClose={() => setShowQR(false)} />
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -145,7 +148,7 @@ export default function VisitasPage() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <h1 className="text-xl font-semibold text-gray-900">Control de Visitas</h1>
         <div className="flex gap-2">
-          <button className="btn-secondary btn-sm gap-1.5" onClick={() => toast('Escáner QR activado')}>
+          <button className="btn-secondary btn-sm gap-1.5" onClick={() => setShowQR(true)}>
             <QrCode size={15} /> Escanear QR
           </button>
           <button className="btn-primary btn-sm gap-1.5" onClick={() => setShowForm(v => !v)}>
