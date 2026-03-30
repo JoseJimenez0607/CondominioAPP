@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserPlus, QrCode, LogOut, Search, AlertTriangle } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { visitasApi, unidadesApi } from '@/services/api';
+import { visitasApi, unidadesApi, estacionamientosApi } from '@/services/api';
 import { useSocket } from '@/services/socket';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -53,6 +53,14 @@ export default function VisitasPage() {
     queryKey: ['unidades'],
     queryFn:  () => unidadesApi.listar().then(r => r.data)
   });
+
+  const { data: estData } = useQuery({
+    queryKey: ['estacionamientos'],
+    queryFn:  () => estacionamientosApi.listar().then(r => r.data),
+    refetchInterval: 15000
+  });
+
+  const calzosLibres = estData?.calzos?.filter(c => c.estado === 'libre') || [];
 
   // Actualizar en tiempo real
   useSocket({
@@ -183,6 +191,19 @@ export default function VisitasPage() {
                   <input className="input" placeholder="AB-CD-12 (opcional)"
                     value={form.patente}
                     onChange={e => setForm(f => ({ ...f, patente: e.target.value }))} />
+                </div>
+                <div>
+                  <label className="label">Estacionamiento visita</label>
+                  <select className="input" value={form.calzo_id}
+                    onChange={e => setForm(f => ({ ...f, calzo_id: e.target.value }))}>
+                    <option value="">Sin estacionamiento</option>
+                    {calzosLibres.map(c => (
+                      <option key={c.id} value={c.id}>Calzo {c.codigo} — Libre</option>
+                    ))}
+                  </select>
+                  {calzosLibres.length === 0 && (
+                    <p className="text-xs text-orange-500 mt-1">No hay calzos disponibles</p>
+                  )}
                 </div>
                 <div>
                   <label className="label">QR pre-aprobado</label>
