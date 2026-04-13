@@ -8,7 +8,7 @@ import VisitasPage          from '@/pages/conserje/VisitasPage';
 import EstacionamientosPage from '@/pages/conserje/EstacionamientosPage';
 import Encomiendas_Page     from '@/pages/conserje/Encomiendas_Page';
 import TicketsPage          from '@/pages/conserje/TicketsPage';
-import ReservasAdmin        from '@/pages/conserje/ReservasAdmin';
+import ReservasConserjePage from '@/pages/conserje/ReservasConserjePage';
 import ResidenteLayout      from '@/pages/residente/ResidenteLayout';
 import ResidenteDashboard   from '@/pages/residente/ResidenteDashboard';
 import ResidenteReservas    from '@/pages/residente/ResidenteReservas';
@@ -58,7 +58,7 @@ export default function App() {
         <Route path="estacionamientos"   element={<EstacionamientosPage />} />
         <Route path="encomiendas"        element={<Encomiendas_Page />} />
         <Route path="tickets"            element={<TicketsPage />} />
-        <Route path="reservas"           element={<ReservasAdmin />} />
+        <Route path="reservas"           element={<ReservasConserjePage />} />
       </Route>
 
       {/* Residente */}

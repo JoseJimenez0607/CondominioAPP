@@ -2,7 +2,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
   Building2, Users, Car, Package, Wrench,
-  LogOut, Bell, ChevronRight, Menu, X
+  LogOut, Calendar, Bell, ChevronRight, Menu, X
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 import { useSocket } from '@/services/socket';

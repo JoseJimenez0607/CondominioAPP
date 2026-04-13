@@ -2,7 +2,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
   Building2, LayoutDashboard, DollarSign,
-  BarChart2, Users, Settings, LogOut, Menu, X, ChevronRight
+  BarChart2, Users, Settings, LogOut, Menu, X, ChevronRight, Calendar
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 
