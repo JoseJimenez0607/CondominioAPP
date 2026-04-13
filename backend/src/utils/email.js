@@ -53,14 +53,18 @@ const templates = {
       </div>`,
   }),
 
-  encomiendaRecibida: (remitente, unidad) => ({
+  encomiendaRecibida: (remitente, unidad, pin, fotoUrl) => ({
     subject: `📦 Paquete recibido en conserjería`,
     html: `
       <div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;padding:24px">
         <h2 style="color:#4c6ef5;margin-bottom:8px">Tienes un paquete</h2>
         <p style="color:#555">Se recibió un paquete de <strong>${remitente || 'remitente desconocido'}</strong> para el departamento <strong>${unidad}</strong>.</p>
-        <p style="color:#555">Puedes retirarlo en conserjería presentando tu PIN de retiro.</p>
-        <p style="color:#888;font-size:13px;margin-top:16px">Recibido: ${new Date().toLocaleString('es-CL')}</p>
+        ${fotoUrl ? `<img src="${fotoUrl}" alt="Foto del paquete" style="max-width:100%; border-radius:8px; margin: 10px 0;" />` : ''}
+        <p style="color:#555">Para retirarlo en conserjería, debes presentar el siguiente código PIN:</p>
+        <div style="background-color:#f4f4f4; padding:15px; text-align:center; font-size:24px; letter-spacing:4px; font-weight:bold; border-radius:8px; margin: 15px 0;">
+          ${pin}
+        </div>
+        <p style="color:#888;font-size:13px; margin-top:16px">Recibido: ${new Date().toLocaleString('es-CL')}</p>
         <hr style="border:none;border-top:1px solid #eee;margin:20px 0"/>
         <p style="color:#aaa;font-size:12px">Condominio App · Notificación automática</p>
       </div>`,

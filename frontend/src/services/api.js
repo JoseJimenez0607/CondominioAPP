@@ -48,7 +48,7 @@ export const encomiendas_api = {
 
 export const reservasApi = {
   listar:      (params) => api.get('/reservas', { params }),
-  pendientes:  ()       => api.get('/reservas/pendientes'),
+  pendientes:  ()       => api.get('/reservas/pendientes'), // <-- ESTA ES LA QUE FALTA EN TU CELULAR
   crear:       (data)   => api.post('/reservas', data),
   areas:       ()       => api.get('/reservas/areas'),
   aprobar:     (id)     => api.put(`/reservas/${id}/aprobar`),
