@@ -17,6 +17,10 @@ const { startParkingAlerts }   = require('./services/parkingAlerts');
 const app    = express();
 const server = http.createServer(app);
 
+// 🌟 ESTA LÍNEA ES CRUCIAL PARA CLOUDFLARE TUNNELS 🌟
+// Le dice a Express que confíe en el proxy de Cloudflare para leer IPs reales
+app.set('trust proxy', 1);
+
 // 1. DOMINIOS PERMITIDOS (Tu Vercel y tu Localhost)
 const allowedOrigins = [
   'https://condominio-app-frontend.vercel.app',
@@ -35,7 +39,14 @@ const io = new Server(server, {
 // ── Seguridad y CORS PARA EXPRESS ────────────────────────
 app.use(helmet());
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    // Permite peticiones sin origin (como las de Postman) o si están en la lista
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
