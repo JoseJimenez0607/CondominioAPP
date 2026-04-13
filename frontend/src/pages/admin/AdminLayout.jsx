@@ -11,6 +11,7 @@ const nav = [
   { to: 'finanzas',     icon: DollarSign,      label: 'Finanzas' },
   { to: 'reportes',     icon: BarChart2,        label: 'Reportes' },
   { to: 'configuracion',icon: Settings,         label: 'Configuración' },
+  { to: 'reservas', icon: Calendar, label: 'Reservas' },
 ];
 
 export default function AdminLayout() {

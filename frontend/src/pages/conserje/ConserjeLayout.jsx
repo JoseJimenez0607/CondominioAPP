@@ -13,6 +13,7 @@ const nav = [
   { to: 'estacionamientos', icon: Car,     label: 'Estacionamientos' },
   { to: 'encomiendas',      icon: Package, label: 'Encomiendas' },
   { to: 'tickets',          icon: Wrench,  label: 'Tickets' },
+  { to: 'reservas',         icon: Calendar, label: 'Reservas' },
 ];
 
 function Clock() {
