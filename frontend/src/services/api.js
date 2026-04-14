@@ -4,7 +4,10 @@ import useAuthStore from '@/store/authStore';
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
   timeout: 15000,
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true' // <--- ESTA ES LA LLAVE MÁGICA
+  }
 });
 
 api.interceptors.request.use((config) => {
