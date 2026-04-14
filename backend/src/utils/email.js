@@ -1,21 +1,37 @@
 const nodemailer = require('nodemailer');
 
-// Transporter — usa SMTP genérico o SendGrid
-const transporter = nodemailer.createTransport(
-  process.env.SENDGRID_API_KEY
-    ? {
-        host:   'smtp.sendgrid.net',
-        port:   587,
-        auth:   { user: 'apikey', pass: process.env.SENDGRID_API_KEY },
-      }
-    : {
-        // Modo desarrollo: Ethereal (captura emails sin enviarlos de verdad)
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: { user: 'test@ethereal.email', pass: 'test' },
-      }
-);
+// Configuración para usar Gmail
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // true para el puerto 465
+  auth: {
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS  
+  }
+});
 
+/**
+ * Envía un email
+ * @param {Object} opts - { to, subject, html, text }
+ */
+async function sendEmail({ to, subject, html, text }) {
+  if (process.env.NODE_ENV === 'test') { return; }
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"${process.env.EMAIL_FROM_NAME || 'Condominio App'}" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      html,
+      text,
+    });
+    console.log(`📧 Email enviado a ${to} — ID: ${info.messageId}`);
+    return info;
+  } catch (err) {
+    console.warn(`⚠️ Error enviando email a ${to}:`, err.message);
+  }
+}
 /**
  * Envía un email
  * @param {Object} opts - { to, subject, html, text }
