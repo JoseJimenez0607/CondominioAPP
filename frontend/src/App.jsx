@@ -21,6 +21,7 @@ import AdminReportes        from '@/pages/admin/AdminReportes';
 import AdminConfiguracion   from '@/pages/admin/AdminConfiguracion';
 import AdminReservas        from '@/pages/admin/AdminReservas';
 import NotFound             from '@/pages/NotFound';
+import RegistroResidente from './pages/RegistroResidente';
 
 function ProtectedRoute({ children, roles }) {
   const { user, isAuthenticated } = useAuthStore();
@@ -46,6 +47,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/"      element={<RoleRedirect />} />
+      <Route path="/registro/:condominioId" element={<RegistroResidente />} />
 
       {/* Conserje / Guardia */}
       <Route path="/conserje" element={

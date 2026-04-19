@@ -85,7 +85,7 @@ app.get('/health', (_req, res) => {
 
 // ── Rutas API ──────────────────────────────────────────────
 app.use('/api', routes);
-
+app.use('/api/solicitudes', require('./controllers/solicitudes'));
 // ── WebSocket ──────────────────────────────────────────────
 setupSocketIO(io);
 

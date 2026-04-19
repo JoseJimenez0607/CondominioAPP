@@ -59,7 +59,7 @@ export default function LoginPage() {
                 <input
                   type="email"
                   className="input pl-9"
-                  placeholder="nombre@edificio.cl"
+                  placeholder="nombre@gmail.com"
                   value={form.email}
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   required
@@ -95,16 +95,7 @@ export default function LoginPage() {
                 </span>
               ) : 'Ingresar'}
             </button>
-          </form>
-
-          {/* Demo credentials hint */}
-          <div className="mt-6 pt-5 border-t border-gray-100 text-xs text-gray-400 space-y-1">
-            <p className="font-medium text-gray-500">Credenciales de prueba:</p>
-            <p>Admin: <span className="font-mono">admin@edificioaurora.cl</span></p>
-            <p>Conserje: <span className="font-mono">conserje@edificioaurora.cl</span></p>
-            <p>Residente: <span className="font-mono">ana.rodriguez@gmail.com</span></p>
-            <p className="italic">Password: <span className="font-mono">123456</span></p>
-          </div>
+          </form>          
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-6">
